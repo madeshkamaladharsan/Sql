@@ -32,7 +32,7 @@ INSERT INTO Customers VALUES
 (2, "Jane", "Smith", '1985-09-20', "steve.smith@gmail.com", "987-654-3210","Coimbatore");
 INSERT INTO Accounts VALUES
 (101, 1, "savings", 1000),
-(102, 1, "current", 500);
+(102, 2, "current", 500);
 INSERT INTO Transactions VALUES
 (1001, 101, "deposit", 500, '2024-04-01'),
 (1002, 101, "withdrawal", 200., '2024-04-05');
