@@ -1,0 +1,68 @@
+1) Find the average account balance for all customers:
+SELECT AVG(balance) AS average_balance
+FROM Accounts;
+2) Write a SQL query to Retrieve the top 10 highest account balances.
+SELECT *
+FROM Accounts
+ORDER BY balance DESC
+LIMIT 10;
+3) Calculate Total Deposits for All Customers on a specific date:
+SELECT SUM(amount) AS total_deposits
+FROM Transactions
+WHERE transaction_type = "deposit"
+AND DATE(transaction_date) = "2024-04-01";
+4) Find the Oldest and Newest Customers:
+SELECT *
+FROM Customers
+ORDER BY DOB ASC
+LIMIT 1;
+
+SELECT *
+FROM Customers
+ORDER BY DOB DESC
+LIMIT 1;
+5) Retrieve transaction details along with the account type:
+SELECT Transactions.*, Accounts.account_type
+FROM Transactions
+JOIN Accounts ON Transactions.account_id = Accounts.account_id;
+6) Get a list of customers along with their account details:
+SELECT Customers.*, Accounts.*
+FROM Customers
+JOIN Accounts ON Customers.customer_id = Accounts.customer_id;
+7) Retrieve transaction details along with customer information for a specific account:
+SELECT Transactions.*, Customers.*
+FROM Transactions
+JOIN Accounts ON Transactions.account_id = Accounts.account_id
+JOIN Customers ON Accounts.customer_id = Customers.customer_id
+WHERE Accounts.account_id = specific_account_id;
+8) Identify customers who have more than one account:
+SELECT customer_id
+FROM Accounts
+GROUP BY customer_id
+HAVING COUNT(customer_id) > 1;
+9) Calculate the average daily balance for each account over a specified period:
+SELECT account_id, AVG(balance)
+FROM Accounts
+GROUP BY account_id;
+10) Calculate the total balance for each account type:
+SELECT account_type, SUM(balance)
+FROM Accounts
+GROUP BY account_type;
+11) Identify accounts with the highest number of transactions order by descending order:
+SELECT account_id, COUNT(*)
+FROM Transactions
+GROUP BY account_id
+ORDER BY COUNT(*) DESC;
+12) Identify and list duplicate transactions based on transaction amount, date, and account:
+
+SELECT transaction_id, amount, transaction_date, account_id
+FROM Transactions
+GROUP BY amount, transaction_date, account_id
+HAVING COUNT(*) > 1;
+
+
+
+
+
+
+
