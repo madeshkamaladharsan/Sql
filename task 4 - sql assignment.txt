@@ -12,52 +12,42 @@ WHERE customer_id IN (SELECT customer_id
                       FROM Accounts
                       GROUP BY customer_id
                       HAVING COUNT(*) > 1);
-3) Retrieve accounts with transactions whose amounts exceed the average transaction amount.
-SELECT *
-FROM Accounts
-WHERE account_id IN (SELECT account_id
-                     FROM Transactions
-                     GROUP BY account_id
-                     HAVING AVG(amount) > (SELECT AVG(amount) FROM Transactions));
-4) Identify customers who have no recorded transactions.
+
+3) Identify customers who have no recorded transactions.
 SELECT *
 FROM Customers
 WHERE customer_id NOT IN (SELECT DISTINCT customer_id FROM Transactions);
-5) Calculate the total balance of accounts with no recorded transactions.
+4) Calculate the total balance of accounts with no recorded transactions.
 SELECT SUM(balance)
 FROM Accounts
 WHERE account_id NOT IN (SELECT DISTINCT account_id FROM Transactions);
-6) Retrieve transactions for accounts with the lowest balance.
+5) Retrieve transactions for accounts with the lowest balance.
 SELECT *
 FROM Transactions
 WHERE account_id IN (SELECT account_id
                      FROM Accounts
                      ORDER BY balance ASC
                      LIMIT 1);
-7) Identify customers who have accounts of multiple types.
+6) Identify customers who have accounts of multiple types.
 SELECT *
 FROM Customers
 WHERE customer_id IN (SELECT customer_id
                       FROM Accounts
                       GROUP BY customer_id
                       HAVING COUNT(DISTINCT account_type) > 1);
-8) Calculate the percentage of each account type out of the total number of accounts.
-SELECT account_type, 
-       COUNT(*) * 100.0 / (SELECT COUNT(*) FROM Accounts) AS percentage
-FROM Accounts
-GROUP BY account_type;
-9) Retrieve all transactions for a customer with a given customer_id.
+
+7) Retrieve all transactions for a customer with a given customer_id.
 SELECT *
 FROM Transactions
-WHERE account_id IN (SELECT account_id
+WHERE account_id = (SELECT account_id
                      FROM Accounts
-                     WHERE customer_id = [customer_id]);
-10) Calculate the total balance for each account type, including a subquery within the SELECT clause.
-SELECT account_type, 
-       (SELECT SUM(balance) 
+                     WHERE customer_id = 101);
+8) Calculate the total balance for each account type, including a subquery within the SELECT clause.
+SELECT account_type, SUM(balance) AS total_balance
+(SELECT COUNT(*)
         FROM Accounts 
-        WHERE account_type = A.account_type) AS total_balance
-FROM Accounts A
+        WHERE account_type = A.account_type) 
+FROM Accounts 
 GROUP BY account_type;
 
 
