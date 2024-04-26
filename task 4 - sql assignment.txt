@@ -42,13 +42,7 @@ FROM Transactions
 WHERE account_id = (SELECT account_id
                      FROM Accounts
                      WHERE customer_id = 101);
-8) Calculate the total balance for each account type, including a subquery within the SELECT clause.
-SELECT account_type, SUM(balance) AS total_balance
-(SELECT COUNT(*)
-        FROM Accounts 
-        WHERE account_type = A.account_type) 
-FROM Accounts 
-GROUP BY account_type;
+
 
 
 
